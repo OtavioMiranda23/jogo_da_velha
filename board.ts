@@ -27,18 +27,26 @@ export class Board {
         return cell !== "X" && cell !== "O";
     }
 
-    public checkIsWin(tableAssign: number):boolean {
+    public checkIsWin():boolean {
         //TODO: Se a combinação se encaixar nos casos de vitória, retorna true
-        return false
+        const winCases = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // linhas
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // colunas
+            [0, 4, 8], [2, 4, 6]             // diagonal
+        ];
+        return winCases.some((pattern:number[]) => {
+             const [a, b, c] = pattern;
+             return this.table[a] === this.table[b] && this.table[b] === this.table[c]; 
+        })
     }
 
-    public checkIsDraw(tableAssign: number):boolean {
+    public checkIsDraw():boolean {
         //TODO: Se as jogadas se esgotarem e não houver vencedor, retorna true
-        return !this.checkIsWin(tableAssign) && !this.checkIsEmptyAssigns(tableAssign);
+        return !this.checkIsEmptyAssigns();
     }
-    
-    public checkIsEmptyAssigns(tableAssign: number):boolean {
-        return this.table.includes("X") || this.table.includes("O")
+
+    public checkIsEmptyAssigns():boolean {
+        return !this.table.includes("X") || !this.table.includes("O")
     }
 
     public printTable(): void {
