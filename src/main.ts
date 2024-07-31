@@ -14,14 +14,19 @@ class Main {
         this.game = new Board();
         this.isCpuTimeToPlay = false;
     }
+    public showInstructions() {
+        console.log("Seja bem-vindo ao Jogo da Velha!!!")
+        console.log("Para jogar, digite um número de 1 a 9 para inserir sua marcação =)")
+    }
     public  build():void {
+        this.showInstructions();
         this.promptUser();
     }
     public promptUser():void {
-        console.log(this.isCpuTimeToPlay ? "É a vez do CPU:" : "Sua vez:")
-        this.game.printTable();
         if(this.game.checkIsWin()) {
             console.log("Vitória");
+            console.log(this.game.giveMessageWinner());
+            this.game.printTable();
             this.rl.close();
             return
         }
@@ -30,7 +35,12 @@ class Main {
             this.rl.close();
             return
         }
-        
+
+        console.log(this.isCpuTimeToPlay ? "É a vez do CPU:" : "Sua vez:")
+        if(!this.isCpuTimeToPlay) {
+            this.game.printTable();
+        } 
+
         const cpuPlay = new Cpu().genarateNumberPlay(this.game.getTable());
         if(cpuPlay === null) {
             console.error("Todas as jogadas já foram feitas.");
@@ -38,6 +48,7 @@ class Main {
         }
         if(this.isCpuTimeToPlay) {
             this.game.assignMove(cpuPlay, false);
+            console.log("O CPU escolhe a casa: ", cpuPlay);
             this.isCpuTimeToPlay = !this.isCpuTimeToPlay
             this.promptUser();  // Chama a si mesma recursivamente após o processamento da jogada do usuário
             return
