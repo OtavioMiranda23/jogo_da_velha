@@ -8,6 +8,10 @@ export class Board {
         this.table[position] = value;
     }
 
+    public getTable() {
+        return this.table;
+    } 
+
     public assignMove(tableAssign: number, isPlayer:boolean):void {
         const tableAssignNomrmalize = tableAssign - 1;
         //TODO: Verifica se o movimento é do player ou cpu e assinala se for válido
@@ -42,11 +46,11 @@ export class Board {
 
     public checkIsDraw():boolean {
         //TODO: Se as jogadas se esgotarem e não houver vencedor, retorna true
-        return !this.checkIsEmptyAssigns();
+        return !this.checkIsEmptyAssigns() && !this.checkIsWin();
     }
 
     public checkIsEmptyAssigns():boolean {
-        return !this.table.includes("X") || !this.table.includes("O")
+        return this.table.some(cell => cell !== "X" && cell != "O");
     }
 
     public printTable(): void {
