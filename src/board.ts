@@ -43,7 +43,29 @@ export class Board {
              return this.table[a] === this.table[b] && this.table[b] === this.table[c]; 
         })
     }
-
+    public giveMessageWinner():string | null {
+        const winCases = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // linhas
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // colunas
+            [0, 4, 8], [2, 4, 6]             // diagonal
+        ];
+        const winPattern =  winCases.filter((pattern: number[]) => {
+            const [a, b, c] = pattern;
+            return this.table[a] === this.table[b] && this.table[b] === this.table[c];
+        })
+        const winValues = [
+            this.table[winPattern[0][0]],
+            this.table[winPattern[0][1]],
+            this.table[winPattern[0][2]],
+        ];
+        if(winValues.every(item => item === "X")) {
+            return "Você venceu! Parabéns"
+        }   
+        if(winValues.every(item => item === "O")) {
+            return "O CPU venceu =("
+        }
+        return null;        
+    }
     public checkIsDraw():boolean {
         //TODO: Se as jogadas se esgotarem e não houver vencedor, retorna true
         return !this.checkIsEmptyAssigns() && !this.checkIsWin();
