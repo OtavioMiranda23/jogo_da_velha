@@ -23,7 +23,9 @@ export class Board {
 
     public isMoveValid(tableAssign: number):boolean {
         //TODO: Se o target estiver disponível no tabuleiro, retorna true
-        if(tableAssign < 0 || tableAssign > 9) {
+        if(tableAssign < 0 || tableAssign > 8) {
+
+
             throw new Error("Movimento inválido: a casa selecionada deve ser um número entre 1 e 9");
         }
         const cell = this.table[tableAssign];
