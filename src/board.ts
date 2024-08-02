@@ -11,18 +11,9 @@ export class Board {
     public getTable() {
         return this.table;
     } 
-    public isMoveValid(tableAssign: number):boolean {
-        //TODO: Se o target estiver disponível no tabuleiro, retorna true
-        if(tableAssign < 0 || tableAssign > 8 ) {
-            throw new Error("Movimento inválido: a casa selecionada deve ser um número entre 1 e 9");
-        }
-        const cell = this.table[tableAssign];
-        return cell !== "X" && cell !== "O";
-    }
 
     public assignMove(tableAssign: number, isPlayer:boolean):void {
         const tableAssignNomrmalize = tableAssign - 1;
-        console.log(tableAssignNomrmalize >= 9)
         //TODO: Verifica se o movimento é do player ou cpu e assinala se for válido
         if(!this.isMoveValid(tableAssignNomrmalize)) {
             throw new Error("Movimento inválido: Casa selecionada já está ocupada");
@@ -30,7 +21,14 @@ export class Board {
         isPlayer ? this.setTable(tableAssignNomrmalize, "X") : this.setTable(tableAssignNomrmalize, "O");  
     }
 
-    
+    public isMoveValid(tableAssign: number):boolean {
+        //TODO: Se o target estiver disponível no tabuleiro, retorna true
+        if(tableAssign < 0 || tableAssign > 8) {
+            throw new Error("Movimento inválido: a casa selecionada deve ser um número entre 1 e 9");
+        }
+        const cell = this.table[tableAssign];
+        return cell !== "X" && cell !== "O";
+    }
 
     public checkIsWin():boolean {
         //TODO: Se a combinação se encaixar nos casos de vitória, retorna true

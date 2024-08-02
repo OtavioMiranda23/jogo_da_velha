@@ -1,9 +1,8 @@
 export class Cpu {
-    public genarateNumberPlay(avaliblePlays: string[]):number | null {
+    public genarateNumberPlay(avaliblePlays: string[]):number {
         const avaliblePlaysFiltered:string[] = avaliblePlays.filter(values => values !== "X" && values !== "O");
         if(!avaliblePlaysFiltered.length) {
-            console.error("Todas as jogadas já foram feitas.")
-            return null
+            throw new Error("Não há mais jogadas disponíveis.")
         }
         return parseInt(avaliblePlaysFiltered[this.getRandomInt(avaliblePlaysFiltered.length)])
     }
