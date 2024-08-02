@@ -1,23 +1,32 @@
 import * as readline from 'readline'
 import { Board } from './board';
 import { Cpu } from './cpu';
+import { GameStatusChecker } from './gameStatusChecker';
+import { BoardPrinter } from './boardPrinter';
 
 class Main {
     private rl;
     private game: Board;
     private isCpuTimeToPlay: boolean;
-    constructor() {
+    private gameStatusChecker: GameStatusChecker;
+    private boardPrinter: BoardPrinter;
+
+    constructor(game: Board, gameStatusChecker: GameStatusChecker, boardPrinter: BoardPrinter) {
         this.rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
         });
-        this.game = new Board();
+
+        this.game = game;
+        this.gameStatusChecker = gameStatusChecker;
         this.isCpuTimeToPlay = false;
+        this.boardPrinter = boardPrinter;
     }
     private showInstructions() {
         console.log("Seja bem-vindo ao Jogo da Velha!!!")
         console.log("Para jogar, digite um número de 1 a 9 para inserir sua marcação =)")
-    }
+    } 
+
     private validateMove(move: number):void {
         if(!this.game.isMoveValid(move - 1)) {
             throw new Error("Erro: Movimento inválido. A casa selecionada já está ocupada.");
@@ -25,12 +34,13 @@ class Main {
         this.game.assignMove(move, true);
         this.isCpuTimeToPlay = !this.isCpuTimeToPlay;
     }
+    
     private validateInput(input: string):number {
         const inputNormalize = parseInt(input);
         if(isNaN(inputNormalize) || inputNormalize < 1 || inputNormalize > 9) {
         
             throw new Error("Erro: entrada inválida. A entrada precisa ser um número disponível entre 1 e 9. Tente novamente.");
-        }
+        } 
         return inputNormalize;
     }
     public  build():void {
@@ -39,14 +49,14 @@ class Main {
     }
     private promptUser():void {
         try {
-            if(this.game.checkIsWin()) {
+            if(this.gameStatusChecker.checkIsWin()) {
                 console.log("Vitória");
-                console.log(this.game.giveMessageWinner());
-                this.game.printTable();
+                console.log(this.gameStatusChecker.giveMessageWinner());
+                this.boardPrinter.printTable();
                 this.rl.close();
                 return
             }
-            if(this.game.checkIsDraw()) {
+            if(this.gameStatusChecker.checkIsDraw()) {
                 console.log("Empate!")
                 this.rl.close();
                 return
@@ -54,7 +64,7 @@ class Main {
     
             console.log(this.isCpuTimeToPlay ? "É a vez do CPU:" : "Sua vez:")
             if(!this.isCpuTimeToPlay) {
-                this.game.printTable();
+                this.boardPrinter.printTable();
             } 
     
             try {
@@ -103,4 +113,7 @@ class Main {
     }
 
 }
-new Main().build();
+const board = new Board(); 
+const printer = new BoardPrinter(board);
+const checker = new GameStatusChecker(board);
+new Main(board, checker, printer).build();

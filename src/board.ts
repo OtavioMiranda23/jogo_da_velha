@@ -24,66 +24,11 @@ export class Board {
     public isMoveValid(tableAssign: number):boolean {
         //TODO: Se o target estiver disponível no tabuleiro, retorna true
         if(tableAssign < 0 || tableAssign > 8) {
-
-
+    
+    
             throw new Error("Movimento inválido: a casa selecionada deve ser um número entre 1 e 9");
         }
-        const cell = this.table[tableAssign];
+        const cell = this.getTable()[tableAssign];
         return cell !== "X" && cell !== "O";
     }
-
-    public checkIsWin():boolean {
-        //TODO: Se a combinação se encaixar nos casos de vitória, retorna true
-        const winCases = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // linhas
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // colunas
-            [0, 4, 8], [2, 4, 6]             // diagonal
-        ];
-        return winCases.some((pattern:number[]) => {
-             const [a, b, c] = pattern;
-             return this.table[a] === this.table[b] && this.table[b] === this.table[c]; 
-        })
-    }
-    public giveMessageWinner():string | null {
-        const winCases = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // linhas
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // colunas
-            [0, 4, 8], [2, 4, 6]             // diagonal
-        ];
-        const winPattern =  winCases.filter((pattern: number[]) => {
-            const [a, b, c] = pattern;
-            return this.table[a] === this.table[b] && this.table[b] === this.table[c];
-        })
-        const winValues = [
-            this.table[winPattern[0][0]],
-            this.table[winPattern[0][1]],
-            this.table[winPattern[0][2]],
-        ];
-        if(winValues.every(item => item === "X")) {
-            return "Você venceu! Parabéns"
-        }   
-        else if(winValues.every(item => item === "O")) {
-            return "O CPU venceu =("
-        }
-        else {
-            throw new Error("Erro ao definir vencedor.")
-        }
-    }
-    public checkIsDraw():boolean {
-        //TODO: Se as jogadas se esgotarem e não houver vencedor, retorna true
-        return !this.checkIsEmptyAssigns() && !this.checkIsWin();
-    }
-
-    public checkIsEmptyAssigns():boolean {
-        return this.table.some(cell => cell !== "X" && cell != "O");
-    }
-
-    public printTable(): void {
-        console.log(" " + this.table[0] + " | " + this.table[1] + " | " + this.table[2] + " ");
-        console.log("---+---+---");
-        console.log(" " + this.table[3] + " | " + this.table[4] + " | " + this.table[5] + " ");
-        console.log("---+---+---");
-        console.log(" " + this.table[6] + " | " + this.table[7] + " | " + this.table[8] + " ");
-    }
-
 }
