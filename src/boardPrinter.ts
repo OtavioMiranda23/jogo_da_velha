@@ -1,6 +1,7 @@
 import { Board } from "./board";
+import IBoardPrinter from "./interfaces/iBoardPrinter";
 
-export class BoardPrinter {
+export class BoardPrinter implements IBoardPrinter {
     private board: Board;
 
     constructor(board: Board) {

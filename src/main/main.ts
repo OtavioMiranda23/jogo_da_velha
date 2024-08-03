@@ -1,17 +1,20 @@
 import * as readline from 'readline'
-import { Board } from './board';
-import { Cpu } from './cpu';
-import { GameStatusChecker } from './gameStatusChecker';
-import { BoardPrinter } from './boardPrinter';
+import { Board } from '../board';
+import { Cpu } from '../cpu';
+import { GameStatusChecker } from '../gameStatusChecker';
+import { BoardPrinter } from '../boardPrinter';
+import IBoard from '@src/interfaces/iBoard';
+import IGameStatusChecker from '@src/interfaces/iGameStatusChecker';
+import IBoardPrinter from '@src/interfaces/iBoardPrinter';
 
 class Main {
     private rl;
-    private game: Board;
+    private game: IBoard;
     private isCpuTimeToPlay: boolean;
-    private gameStatusChecker: GameStatusChecker;
-    private boardPrinter: BoardPrinter;
+    private gameStatusChecker: IGameStatusChecker;
+    private boardPrinter: IBoardPrinter;
 
-    constructor(game: Board, gameStatusChecker: GameStatusChecker, boardPrinter: BoardPrinter) {
+    constructor(game: IBoard, gameStatusChecker: IGameStatusChecker, boardPrinter: IBoardPrinter) {
         this.rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout

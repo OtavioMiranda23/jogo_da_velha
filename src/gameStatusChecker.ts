@@ -1,6 +1,7 @@
 import { Board } from "./board";
+import IGameStatusChecker from "./interfaces/iGameStatusChecker";
 
-export class GameStatusChecker {
+export class GameStatusChecker implements IGameStatusChecker {
     private board: Board
 
     constructor(board: Board) {
