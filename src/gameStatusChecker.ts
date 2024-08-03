@@ -10,7 +10,6 @@ export class GameStatusChecker implements IGameStatusChecker {
     }
 
     public checkIsWin():boolean {
-        //TODO: Se a combinação se encaixar nos casos de vitória, retorna true
         const table = this.board.getTable();
         const winCases = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8], // linhas
@@ -48,7 +47,6 @@ export class GameStatusChecker implements IGameStatusChecker {
 
     }
     public checkIsDraw():boolean {
-        //TODO: Se as jogadas se esgotarem e não houver vencedor, retorna true
         return !this.checkIsEmptyAssigns() && !this.checkIsWin();
     }
 
