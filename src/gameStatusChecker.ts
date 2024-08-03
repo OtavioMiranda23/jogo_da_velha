@@ -40,7 +40,7 @@ export class GameStatusChecker implements IGameStatusChecker {
             table[winPattern[0][2]],
         ];
         if(winValues.every(item => item === "X")) {
-            return  [GameResult.PLAYER, "Você venceu! Parabéns"];
+            return  [GameResult.PLAYER, "Você venceu! Parabéns! =D"];
         }   
         
         return [GameResult.CPU, "O CPU venceu =("];

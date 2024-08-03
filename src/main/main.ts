@@ -68,10 +68,25 @@ class Main {
             
         })
     }
-    public resetGame() {
+    private resetGame() {
         this.game.reset();
         this.isCpuTimeToPlay = false;
         this.promptUser();
+    }
+
+    private handleWin(): void {
+        const [result, message] = this.gameStatusChecker.giveMessageWinner();
+        console.log(message);
+        this.boardPrinter.printTable();
+        this.scoreboard.incrementValue(result);
+        this.scoreboard.printScoreboard();
+        this.continueGame();
+    }
+    private handleDraw() {
+        console.log("O jogo empatou!")
+        this.scoreboard.incrementValue(GameResult.DRAW);
+        this.scoreboard.printScoreboard();
+        this.continueGame();
     }
     public  build():void {
         this.showInstructions();
@@ -80,22 +95,13 @@ class Main {
     private promptUser():void {
         try {
             if(this.gameStatusChecker.checkIsWin()) {
-                const [result, message] = this.gameStatusChecker.giveMessageWinner();
-                console.log("Vitória!");
-                console.log(message);
-                this.boardPrinter.printTable();
-                this.scoreboard.incrementValue(result);
-                this.scoreboard.printScoreboard();
-                this.continueGame();
+                this.handleWin();
                 return
             }
             if(this.gameStatusChecker.checkIsDraw()) {
-                console.log("Empate!")
-                this.scoreboard.incrementValue(GameResult.DRAW);
-                this.continueGame();
+                this.handleDraw();
                 return
-            }
-    
+            }    
             console.log(this.isCpuTimeToPlay ? "É a vez do CPU:" : "Sua vez:")
             if(!this.isCpuTimeToPlay) {
                 this.boardPrinter.printTable();
@@ -119,10 +125,8 @@ class Main {
                 else {
                     console.error("Ocorreu um erro desconhecido.");
                     this.rl.close();
-    
                 }
             }
-            
             
             this.rl.question("Qual a sua jogada? (1-9) ", (play) => {
                 try {
