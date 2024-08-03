@@ -33,4 +33,7 @@ export class Board implements IBoard {
         const cell = this.getTable()[tableAssign];
         return cell !== "X" && cell !== "O";
     }
+    public reset() {
+        this.table = ["1","2","3","4","5","6","7","8","9"]
+    }
 }

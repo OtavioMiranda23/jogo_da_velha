@@ -6,6 +6,8 @@ import { BoardPrinter } from '../boardPrinter';
 import IBoard from '@src/interfaces/iBoard';
 import IGameStatusChecker from '@src/interfaces/iGameStatusChecker';
 import IBoardPrinter from '@src/interfaces/iBoardPrinter';
+import IScoreboard from '@src/interfaces/iScoreboard';
+import { GameResult, Scoreboard } from '../scoreboard';
 
 class Main {
     private rl;
@@ -13,17 +15,24 @@ class Main {
     private isCpuTimeToPlay: boolean;
     private gameStatusChecker: IGameStatusChecker;
     private boardPrinter: IBoardPrinter;
+    private scoreboard: IScoreboard;
 
-    constructor(game: IBoard, gameStatusChecker: IGameStatusChecker, boardPrinter: IBoardPrinter) {
+    constructor(
+        game: IBoard, 
+        gameStatusChecker: IGameStatusChecker, 
+        boardPrinter: IBoardPrinter,
+        scoreboard: IScoreboard,
+    ) {
         this.rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
         });
-
+ 
         this.game = game;
         this.gameStatusChecker = gameStatusChecker;
         this.isCpuTimeToPlay = false;
         this.boardPrinter = boardPrinter;
+        this.scoreboard = scoreboard;
     }
     private showInstructions() {
         console.log("Seja bem-vindo ao Jogo da Velha!!!")
@@ -46,6 +55,24 @@ class Main {
         } 
         return inputNormalize;
     }
+    public continueGame() {
+        this.rl.question("Aperte (1) para continuar jogando ou (0) para encerrar", (input) => {
+            if(input === "1") {
+                this.resetGame();
+            } else if(input === "0") {
+                this.rl.close();
+            } else {
+                console.error("Entrada incorreta, tente novamente");
+                this.continueGame();
+            }
+            
+        })
+    }
+    public resetGame() {
+        this.game.reset();
+        this.isCpuTimeToPlay = false;
+        this.promptUser();
+    }
     public  build():void {
         this.showInstructions();
         this.promptUser();
@@ -53,15 +80,19 @@ class Main {
     private promptUser():void {
         try {
             if(this.gameStatusChecker.checkIsWin()) {
-                console.log("Vitória");
-                console.log(this.gameStatusChecker.giveMessageWinner());
+                const [result, message] = this.gameStatusChecker.giveMessageWinner();
+                console.log("Vitória!");
+                console.log(message);
                 this.boardPrinter.printTable();
-                this.rl.close();
+                this.scoreboard.incrementValue(result);
+                this.scoreboard.printScoreboard();
+                this.continueGame();
                 return
             }
             if(this.gameStatusChecker.checkIsDraw()) {
                 console.log("Empate!")
-                this.rl.close();
+                this.scoreboard.incrementValue(GameResult.DRAW);
+                this.continueGame();
                 return
             }
     
@@ -119,4 +150,5 @@ class Main {
 const board = new Board(); 
 const printer = new BoardPrinter(board);
 const checker = new GameStatusChecker(board);
-new Main(board, checker, printer).build();
+const scoreboard = new Scoreboard();
+new Main(board, checker, printer, scoreboard).build();
