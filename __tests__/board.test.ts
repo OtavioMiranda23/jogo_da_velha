@@ -1,6 +1,7 @@
 import { Board } from "../src/board";
 import { GameStatusChecker } from "../src/gameStatusChecker";
 import { BoardPrinter } from "../src/boardPrinter";
+import { GameResult } from "../src/scoreboard";
 
 describe('testing Board class', () => {
     let board: Board;
@@ -100,14 +101,14 @@ describe('testing Board class', () => {
         board.assignMove(1, true);
         board.assignMove(2, true);
         board.assignMove(3, true);
-        expect(checker.giveMessageWinner()).toBe("Você venceu! Parabéns");
+        expect(checker.giveMessageWinner()).toStrictEqual([GameResult.PLAYER, "Você venceu! Parabéns"]);
     });
 
     test('giveMessageWinner method CPU wins', () => {
         board.assignMove(1, false);
         board.assignMove(2, false);
         board.assignMove(3, false);
-        expect(checker.giveMessageWinner()).toBe("O CPU venceu =(");
+        expect(checker.giveMessageWinner()).toStrictEqual([GameResult.CPU, "O CPU venceu =("]);
     });
 
     // Testes para o método checkIsDraw

@@ -1,6 +1,8 @@
+import { GameResult } from "@src/scoreboard";
+
 export default interface IGameStatusChecker {
     checkIsWin():boolean;
-    giveMessageWinner():string | null;
+    giveMessageWinner():[GameResult, string];
     checkIsDraw():boolean;
-     checkIsEmptyAssigns():boolean
+    checkIsEmptyAssigns():boolean
 }

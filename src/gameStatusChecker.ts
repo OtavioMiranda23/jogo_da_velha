@@ -1,5 +1,6 @@
 import { Board } from "./board";
 import IGameStatusChecker from "./interfaces/iGameStatusChecker";
+import { GameResult } from "./scoreboard";
 
 export class GameStatusChecker implements IGameStatusChecker {
     private board: Board
@@ -21,7 +22,7 @@ export class GameStatusChecker implements IGameStatusChecker {
              return table[a] === table[b] && table[b] === table[c]; 
         })
     }
-    public giveMessageWinner():string | null {
+    public giveMessageWinner(): [GameResult, string] {
         const table = this.board.getTable();
 
         const winCases = [
@@ -39,14 +40,12 @@ export class GameStatusChecker implements IGameStatusChecker {
             table[winPattern[0][2]],
         ];
         if(winValues.every(item => item === "X")) {
-            return "Você venceu! Parabéns"
+            return  [GameResult.PLAYER, "Você venceu! Parabéns! =D"];
         }   
-        else if(winValues.every(item => item === "O")) {
-            return "O CPU venceu =("
-        }
-        else {
-            throw new Error("Erro ao definir vencedor.")
-        }
+        
+        return [GameResult.CPU, "O CPU venceu =("];
+        
+
     }
     public checkIsDraw():boolean {
         //TODO: Se as jogadas se esgotarem e não houver vencedor, retorna true
