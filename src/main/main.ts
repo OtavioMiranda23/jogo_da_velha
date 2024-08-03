@@ -70,7 +70,6 @@ class Main {
     }
     private resetGame() {
         this.game.reset();
-        this.isCpuTimeToPlay = false;
         this.promptUser();
     }
 
