@@ -1,4 +1,6 @@
-export class Board {
+import IBoard from "./interfaces/iBoard";
+
+export class Board implements IBoard {
     private table: string[]; 
     constructor() {
         this.table = ["1","2","3","4","5","6","7","8","9"]
