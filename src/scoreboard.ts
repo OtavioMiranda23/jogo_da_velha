@@ -29,6 +29,6 @@ export class Scoreboard implements IScoreboard {
         console.log(`Empate: ${this.scoreboard.draw}`);
     }
     public incrementValue(result: GameResult): void {
-        this.scoreboard[result]++
+        this.scoreboard[result]++;
     }
 }

@@ -87,7 +87,7 @@ class Main {
         this.scoreboard.printScoreboard();
         this.continueGame();
     }
-    public  build():void {
+    public build():void {
         this.showInstructions();
         this.promptUser();
     }
@@ -112,7 +112,7 @@ class Main {
                     this.game.assignMove(cpuPlay, false);
                     console.log("O CPU escolhe a casa: ", cpuPlay);
                     this.isCpuTimeToPlay = !this.isCpuTimeToPlay
-                    this.promptUser();  // Chama a si mesma recursivamente após o processamento da jogada do usuário
+                    this.promptUser(); 
                     return
                 }
             } catch (err) {
@@ -140,7 +140,7 @@ class Main {
                     }
                 } 
 
-                this.promptUser();  // Chama a si mesma recursivamente após o processamento da jogada do usuário
+                this.promptUser();
             });
         } catch (err) {
             console.error("Ocorreu um erro inesperado:", err);
