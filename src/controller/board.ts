@@ -1,4 +1,4 @@
-import IBoard from "./interfaces/iBoard";
+import IBoard from "../interfaces/iBoard";
 
 export class Board implements IBoard {
     private table: string[]; 

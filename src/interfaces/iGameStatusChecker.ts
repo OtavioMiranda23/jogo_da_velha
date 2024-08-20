@@ -1,4 +1,4 @@
-import { GameResult } from "@src/scoreboard";
+import { GameResult } from "@src/controller/scoreboard";
 
 export default interface IGameStatusChecker {
     checkIsWin():boolean;
