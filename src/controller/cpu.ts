@@ -1,4 +1,4 @@
-import ICpu from "./interfaces/iCpu";
+import ICpu from "../interfaces/iCpu";
 
 export class Cpu implements ICpu {
     public genarateNumberPlay(avaliblePlays: string[]):number {

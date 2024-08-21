@@ -1,4 +1,4 @@
-import IScoreboard from "./interfaces/iScoreboard";
+import IScoreboard from "../interfaces/iScoreboard";
 
 export type TypeScoreboard = {
     player: number, 

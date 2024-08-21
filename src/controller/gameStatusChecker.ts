@@ -1,5 +1,5 @@
 import { Board } from "./board";
-import IGameStatusChecker from "./interfaces/iGameStatusChecker";
+import IGameStatusChecker from "../interfaces/iGameStatusChecker";
 import { GameResult } from "./scoreboard";
 
 export class GameStatusChecker implements IGameStatusChecker {

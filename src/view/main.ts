@@ -1,13 +1,15 @@
 import * as readline from 'readline'
-import { Board } from '../board';
-import { Cpu } from '../cpu';
-import { GameStatusChecker } from '../gameStatusChecker';
-import { BoardPrinter } from '../boardPrinter';
+import { Board } from '../controller/board';
+import { Cpu } from '../controller/cpu';
+import { GameStatusChecker } from '../controller/gameStatusChecker';
+import { BoardPrinter } from '../controller/boardPrinter';
 import IBoard from '@src/interfaces/iBoard';
 import IGameStatusChecker from '@src/interfaces/iGameStatusChecker';
 import IBoardPrinter from '@src/interfaces/iBoardPrinter';
 import IScoreboard from '@src/interfaces/iScoreboard';
-import { GameResult, Scoreboard } from '../scoreboard';
+import { GameResult, Scoreboard } from '../controller/scoreboard';
+import Validator from '@src/utils/validator';
+import Instructions from './instructions';
 
 class Main {
     private rl;
@@ -34,10 +36,6 @@ class Main {
         this.boardPrinter = boardPrinter;
         this.scoreboard = scoreboard;
     }
-    private showInstructions() {
-        console.log("Seja bem-vindo ao Jogo da Velha!!!")
-        console.log("Para jogar, digite um número de 1 a 9 para inserir sua marcação =)")
-    } 
 
     private validateMove(move: number):void {
         if(!this.game.isMoveValid(move - 1)) {
@@ -45,15 +43,6 @@ class Main {
         }
         this.game.assignMove(move, true);
         this.isCpuTimeToPlay = !this.isCpuTimeToPlay;
-    }
-    
-    private validateInput(input: string):number {
-        const inputNormalize = parseInt(input);
-        if(isNaN(inputNormalize) || inputNormalize < 1 || inputNormalize > 9) {
-        
-            throw new Error("Erro: entrada inválida. A entrada precisa ser um número disponível entre 1 e 9. Tente novamente.");
-        } 
-        return inputNormalize;
     }
     public continueGame() {
         this.rl.question("Aperte (1) para continuar jogando ou (0) para encerrar", (input) => {
@@ -65,7 +54,6 @@ class Main {
                 console.error("Entrada incorreta, tente novamente");
                 this.continueGame();
             }
-            
         })
     }
     private resetGame() {
@@ -88,7 +76,7 @@ class Main {
         this.continueGame();
     }
     public build():void {
-        this.showInstructions();
+        Instructions.showInstructions();
         this.promptUser();
     }
     private promptUser():void {
@@ -129,7 +117,7 @@ class Main {
             
             this.rl.question("Qual a sua jogada? (1-9) ", (play) => {
                 try {
-                    const playValidated = this.validateInput(play);
+                    const playValidated = Validator.validateInput(play);
                     this.validateMove(playValidated);
                 } catch (err) {
                     if(err instanceof Error) {
