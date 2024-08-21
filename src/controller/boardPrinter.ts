@@ -1,4 +1,4 @@
-import { Board } from "../board";
+import { Board } from "./board";
 import IBoardPrinter from "../interfaces/iBoardPrinter";
 
 export class BoardPrinter implements IBoardPrinter {

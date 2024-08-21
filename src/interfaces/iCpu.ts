@@ -1,3 +1,3 @@
 export default interface ICpu { 
-    genarateNumberPlay(avaliblePlays: string[]): number;
+    selectDifficulty(avaliblePlays: string[]): void;
 }

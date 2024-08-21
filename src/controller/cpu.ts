@@ -1,15 +1,36 @@
 import ICpu from "../interfaces/iCpu";
+import CpuEasyLevel from "./cpuEasyLevel";
+import CpuMediumLevel from "./CpuMediumLevel";
+import MediumDifficulty from "./CpuMediumLevel";
+
+enum DifficultyLevel {
+    EASY = 1,
+    MEDIUM = 2,
+    HARD = 3
+}
 
 export class Cpu implements ICpu {
-    public genarateNumberPlay(avaliblePlays: string[]):number {
-        const avaliblePlaysFiltered:string[] = avaliblePlays.filter(values => values !== "X" && values !== "O");
-        if(!avaliblePlaysFiltered.length) {
-            throw new Error("Não há mais jogadas disponíveis.")
-        }
-        return parseInt(avaliblePlaysFiltered[this.getRandomInt(avaliblePlaysFiltered.length)])
+    private difficultyLevel: DifficultyLevel;
+    private cpuEasyLevel: CpuEasyLevel;
+    private cpuMediumLevel: CpuMediumLevel;
+    
+    
+    constructor(difficulty: DifficultyLevel, easy: CpuEasyLevel, medium: CpuMediumLevel) {
+        this.difficultyLevel = difficulty;
+        this.cpuEasyLevel = easy;
+        this.cpuMediumLevel = medium;
     }
 
-    private getRandomInt(max: number): number {
-        return Math.floor(Math.random() * max)
+    public selectDifficulty(avaliblePlays: string[]): void {
+        switch (this.difficultyLevel) {
+            case DifficultyLevel.EASY:
+                this.cpuEasyLevel.giveRandomPlay(avaliblePlays);     
+                break;
+            case DifficultyLevel.MEDIUM:
+                this.cpuMediumLevel.assinalateMove(avaliblePlays)
+        
+            default:
+                break;
+        }
     }
 }
