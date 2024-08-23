@@ -1,7 +1,7 @@
 import ICpu from "../interfaces/iCpu";
+import { Board } from "./board";
 import CpuEasyLevel from "./cpuEasyLevel";
 import CpuMediumLevel from "./CpuMediumLevel";
-import MediumDifficulty from "./CpuMediumLevel";
 
 enum DifficultyLevel {
     EASY = 1,
@@ -13,14 +13,14 @@ export class Cpu implements ICpu {
     private difficultyLevel: DifficultyLevel;
     private cpuEasyLevel: CpuEasyLevel;
     private cpuMediumLevel: CpuMediumLevel;
-    
-    
+   
     constructor(difficulty: DifficultyLevel, easy: CpuEasyLevel, medium: CpuMediumLevel) {
         this.difficultyLevel = difficulty;
         this.cpuEasyLevel = easy;
         this.cpuMediumLevel = medium;
     }
 
+  
     public selectDifficulty(avaliblePlays: string[]): void {
         switch (this.difficultyLevel) {
             case DifficultyLevel.EASY:

@@ -8,10 +8,14 @@ var DifficultyLevel;
     DifficultyLevel[DifficultyLevel["HARD"] = 3] = "HARD";
 })(DifficultyLevel || (DifficultyLevel = {}));
 class Cpu {
-    constructor(difficulty, easy, medium) {
+    constructor(difficulty, easy, medium, board) {
         this.difficultyLevel = difficulty;
         this.cpuEasyLevel = easy;
         this.cpuMediumLevel = medium;
+        this.board = board;
+    }
+    getBoard() {
+        return this.board;
     }
     selectDifficulty(avaliblePlays) {
         switch (this.difficultyLevel) {
